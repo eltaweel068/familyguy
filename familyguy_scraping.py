@@ -16,7 +16,7 @@ for i in range(1, 24):
     season_key = f"season :{i}"
     episodes[season_key] = []
     
-    url = f"https://freefamilyguy.com/category/season-{i}/"
+    url = f"https://example.com/category/season-{i}/"
     response = requests.get(url, timeout=10, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
     # with open("response.html", "w", encoding="utf-8") as f:
