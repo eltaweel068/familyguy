@@ -37,7 +37,7 @@ func main() {
 		return
 	}
 
-	db, err := LoadDatabase("data/episodes.json")
+	db, err := LoadDatabase()
 	if err != nil {
 		fmt.Println("Error:", err)
 		return

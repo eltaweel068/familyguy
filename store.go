@@ -8,18 +8,21 @@ import (
 	"strings"
 	"runtime"
 	"os/exec"
+	"net/http"
 )
 
-func LoadDatabase(filePath string) (Database, error) {
-	fileData, err := os.ReadFile(filePath)
+
+func LoadDatabase() (Database, error) {
+	resp, err := http.Get(rawJsonURL)
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	var db Database
-	err = json.Unmarshal(fileData, &db)
+	err = json.NewDecoder(resp.Body).Decode(&db)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error decoding JSON: %v", err)
 	}
 
 	return db, nil
