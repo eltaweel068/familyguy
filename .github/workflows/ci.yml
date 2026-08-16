@@ -26,4 +26,4 @@ jobs:
 
       - name: Test build
         run: |
-          go build -v -o familyguy .
+          go build -v -o familyguy ./cmd/familyguy
