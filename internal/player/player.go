@@ -1,64 +1,10 @@
-package main
-
+package player
 import (
-	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
-	"runtime"
 	"os/exec"
-	"net/http"
+	"runtime"
 )
-
-
-func LoadDatabase() (Database, error) {
-	resp, err := http.Get(rawJsonURL)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	var db Database
-	err = json.NewDecoder(resp.Body).Decode(&db)
-	if err != nil {
-		return nil, fmt.Errorf("error decoding JSON: %v", err)
-	}
-
-	return db, nil
-}
-
-func FindEpisode(db Database, seasonInput, episodeInput string) (string, string, error) {
-	seasonInput = strings.ToLower(seasonInput)
-	episodeInput = strings.ToLower(episodeInput)
-
-	seasonInput = strings.ReplaceAll(seasonInput, "s", "")
-	episodeInput = strings.ReplaceAll(episodeInput, "e", "")
-
-	seasonKey := fmt.Sprintf("season :%s", strings.TrimSpace(seasonInput))
-
-	epNum, err := strconv.Atoi(strings.TrimSpace(episodeInput))
-	if err != nil {
-		return "", "", fmt.Errorf("invalid episode number: %v", err)
-	}
-
-	episodes, exists := db[seasonKey]
-	if !exists {
-		return "", "", fmt.Errorf("season [%s] not found", seasonKey)
-	}
-
-
-	for _, ep := range episodes {
-    if ep.Episode == epNum {
-        if ep.EpisodeMP4Link == nil {
-            return "", ep.EpisodeName, fmt.Errorf("episode [%d] does not have a valid MP4 link", epNum)
-        }
-        return *ep.EpisodeMP4Link, ep.EpisodeName, nil
-    }
-}
-
-	return "", "", fmt.Errorf("episode [%d] not found in season [%s]", epNum, seasonKey)
-}
 
 // Function to open a URL in the default browser based on the operating system
 
@@ -80,7 +26,7 @@ func OpenURLInBrowser(url string) error {
 
 // Function to play a URL in VLC based on the operating system
 
-func playInVLC(url string) error {
+func PlayInVLC(url string) error {
 	switch runtime.GOOS {
 
 	case "linux":
