@@ -1,0 +1,70 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    main: ./cmd/familyguy
+    binary: familyguy
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    files:
+      - README.md
+      - LICENSE*
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: "checksums.txt"
+
+brews:
+  - repository:
+      owner: eltaweel068
+      name: homebrew-joy
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    name: familyguy
+    description: "Terminal-based viewer"
+    homepage: "https://github.com/eltaweel068/familyguy"
+    license: "MIT"
+    commit_author:
+      name: Meko
+      email: mohamedeltaweel068@gmail.com
+
+scoops:
+  - repository:
+      owner: eltaweel068
+      name: toy
+      token: "{{ .Env.SCOOP_BUCKET_GITHUB_TOKEN }}"
+    description: "Terminal-based viewer"
+    homepage: "https://github.com/eltaweel068/familyguy"
+    license: "MIT"
+    commit_author:
+      name: Meko
+      email: mohamedeltaweel068@gmail.com
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"

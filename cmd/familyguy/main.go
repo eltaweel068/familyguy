@@ -18,10 +18,19 @@ import (
 	"github.com/eltaweel068/familyguy/internal/ui"
 )
 
-
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
 
 func main() {
 
+	if len(os.Args) > 1 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
+		fmt.Printf("familyguy %s (commit: %s, built at: %s)\n", version, commit, date)
+		return
+	}
+	
 	// if len(os.Args) < 3 {
 	// fmt.Print(Logo)
 	// fmt.Println("Usage: familyguy <season> <episode>")
