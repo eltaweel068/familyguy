@@ -198,7 +198,7 @@ func (m Model) View() string {
 
 	mainView := lipgloss.JoinHorizontal(lipgloss.Top, leftCol, "│ ", rightCol)
 
-	return fmt.Sprintf("%s\n\n%s\n\nPress Ctrl+C to quit.\n", Logo, mainView)
+	return fmt.Sprintf("%s\n\n%s\n\nPress Ctrl+C or Esc to quit.\n", Logo, mainView)
 }
 
 func cleanEpisodeTitle(title string) string {

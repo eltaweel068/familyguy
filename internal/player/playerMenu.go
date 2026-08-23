@@ -25,13 +25,13 @@ func newPromptModel(url string) promptModel {
 		cursor: 0,
 		choices: []choiceItem{
 			{
-				title:  "VLC [You must have VLC installed]",
+				title:  "Default Web Browser (Recommended)",
+				action: OpenURLInBrowser,
+			},{
+				title:  "VLC Player (May fail if Cloudflare Challenge is active)",
 				action: PlayInVLC,
 			},
-			{
-				title:  "Default Web Browser",
-				action: OpenURLInBrowser,
-			},
+			
 		},
 	}
 }
